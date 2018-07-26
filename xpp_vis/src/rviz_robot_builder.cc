@@ -32,6 +32,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <xpp_states/convert.h>
 #include <xpp_vis/rviz_colors.h>
 
+#include <cmath>
+
 namespace xpp {
 
 RvizRobotBuilder::RvizRobotBuilder()
@@ -346,8 +348,17 @@ RvizRobotBuilder::CreateForceArrow (const Vector3d& force,
   m.scale.y = 0.02; // arrow-head diameter
   m.scale.z = 0.06; // arrow-head length
 
-  double force_scale = 800;
-  Vector3d p_start = ee_pos - force/force_scale;
+  //const double force_scale = 800; // for anymal and Alex's robots
+
+  const double force_scale = 10; // for the m545
+
+  Vector3d force_scaled;
+  for (auto i : {X,Y,Z}){
+    double logarithm = std::log(std::abs(force(i)) + 1) / force_scale;
+    force_scaled(i) = (force(i) > 0)? logarithm : -logarithm;
+  }
+
+  Vector3d p_start = ee_pos -force_scaled;
   auto start = Convert::ToRos<geometry_msgs::Point>(p_start);
   m.points.push_back(start);
 
