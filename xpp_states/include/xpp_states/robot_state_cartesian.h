@@ -59,6 +59,10 @@ public:
   Endeffectors<Vector3d> ee_forces_;
   EndeffectorsContact ee_contact_;
   double t_global_;
+  Endeffectors<double> wheel_angles_;
+
+
+
 };
 
 } /* namespace xpp */
