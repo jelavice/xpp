@@ -27,8 +27,16 @@
 
 
 
-	<!-- Converts Cartesian state to joint state and publish TFs to rviz -->
-	<!-- todo write this -->
-	<!-- <node name="urdf_visualizer_m545" pkg="xpp_m545" type="urdf_visualizer_m545" 
-		output="screen"/> -->
+	<!-- Converts towr trajecotry to excavator state -->
+	<!-- todo implement -->
+	<node name="urdf_visualizer_m545" pkg="xpp_m545"
+		type="urdf_visualizer_m545" output="screen" />
+
+	<!-- Publish tf from robot state -->
+	<include file="$(find m545_rviz)/launch/tf_publisher.launch">
+		<arg name="description_name" value="$(arg description_name)" />
+	</include>
+
+
+
 </launch>
