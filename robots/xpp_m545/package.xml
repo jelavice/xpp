@@ -14,5 +14,5 @@
   <buildtool_depend>catkin</buildtool_depend>
   <depend>roscpp</depend>
   <depend>xpp_vis</depend>
-  <depend>m545_description</depend>
+  <depend>m545_description_ros</depend>
 </package>

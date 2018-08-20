@@ -6,7 +6,7 @@ add_compile_options(-std=c++11)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   xpp_vis
-  m545_description
+  m545_description_ros
 )
 
 ###################################

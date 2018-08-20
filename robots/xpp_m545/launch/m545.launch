@@ -1,10 +1,34 @@
 <launch>
- 
-  <!-- Upload URDF file to ros parameter server for rviz to find  -->
-  <param name="m545_rviz_urdf_robot_description" command="$(find xacro)/xacro --inorder '$(find m545_common)/urdf/m545.urdf.xacro'"/>
-  
-  <!-- Converts Cartesian state to joint state and publish TFs to rviz  --> 
-  <!-- todo write this -->
-  <node name="urdf_visualizer_m545" pkg="xpp_m545" type="urdf_visualizer_m545" output="screen"/>
-     
+
+	<!-- Upload URDF file to ros parameter server for rviz to find -->
+
+	<!-- robot description loading parameters -->
+	<arg name="excavator_name" default="m545" />
+	<arg name="description_name" default="/romo_mm_description" />
+	<arg name="perfect_sensors" default="false" />
+	<arg name="fixed" default="false" />
+	<arg name="using_velodyne" default="false" />
+	<arg name="using_gps" default="true" />
+	<arg name="using_cabin_imu" default="true" />
+	<arg name="parse_xacro" default="false" />
+
+
+	<include file="$(find m545_description_ros)/launch/load.launch">
+		<arg name="excavator_name" value="$(arg excavator_name)" />
+		<arg name="simulation" value="true" />
+		<arg name="perfect_sensors" value="$(arg perfect_sensors)" />
+		<arg name="fixed" value="$(arg fixed)" />
+		<arg name="using_velodyne" value="$(arg using_velodyne)" />
+		<arg name="using_gps" value="$(arg using_gps)" />
+		<arg name="using_cabin_imu" value="$(arg using_cabin_imu)" />
+		<arg name="description_name" value="$(arg description_name)" />
+		<arg name="parse_xacro" value="$(arg parse_xacro)" />
+	</include>
+
+
+
+	<!-- Converts Cartesian state to joint state and publish TFs to rviz -->
+	<!-- todo write this -->
+	<!-- <node name="urdf_visualizer_m545" pkg="xpp_m545" type="urdf_visualizer_m545" 
+		output="screen"/> -->
 </launch>
