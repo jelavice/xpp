@@ -61,6 +61,18 @@ static std::map<FootIDs, std::string> foot_to_name =
 };
 }
 
+namespace excavator {
+enum FootIDs { LF=0, RF, LH, RH, EE };
+static std::map<FootIDs, std::string> foot_to_name =
+{
+  {LF, "Left-Front" },
+  {RF, "Right-Front"},
+  {LH, "Left-Hind"  },
+  {RH, "Right-Hind" },
+  {EE, "End-effector" }
+};
+}
+
 } // namespace xpp
 
 #endif /* XPP_STATES_ENDEFFECTOR_MAPPINGS_H_ */
