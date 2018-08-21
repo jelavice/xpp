@@ -7,35 +7,38 @@
 
 #pragma once
 
-
 #include <string>
 
+#include <ros/ros.h>
 #include <ros/publisher.h>
 #include <ros/subscriber.h>
 
 #include <xpp_msgs/RobotStateJoint.h>
 
+#include "excavator_model/ExcavatorModel.hpp"
+
 //todo this depends on the m545 State
 namespace xpp {
 
+class M545StateConverter
+{
+ public:
 
-class M545StateConverter {
-public:
+  M545StateConverter(const std::string& xpp_state_topic, const std::string& m545_state_topic);
+  virtual ~M545StateConverter() = default;
 
-  M545StateConverter (const std::string& towr_state_topic,
-                           const std::string& m545_state_topic);
-  virtual ~M545StateConverter () = default;
+ private:
 
-private:
-
-  //todo implement this guy
-  //it gets the message copies all the crap
-  // and the n it just add default values for joints that are not optimized over
-  // e.g. claw, ee_yaw etc
   void StateCallback(const xpp_msgs::RobotStateJoint& msg);
 
+  void FillKindrVector(const xpp_msgs::RobotStateJoint& msg,
+                       excavator_model::JointPositions &kindrVec,
+                       int starting_index_kindr,
+                       int starting_index_xpp,
+                       int numJoints);
+
   ros::Subscriber xpp_state_sub_;
-  ros::Publisher  m545_state_pub_;
+  ros::Publisher m545_state_pub_;
 
 };
 

@@ -15,4 +15,6 @@
   <depend>roscpp</depend>
   <depend>xpp_vis</depend>
   <depend>m545_description_ros</depend>
+  <depend>excavator_model</depend>
+  <depend>loco_m545</depend>
 </package>

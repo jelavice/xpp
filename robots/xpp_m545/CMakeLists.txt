@@ -7,6 +7,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   xpp_vis
   m545_description_ros
+  excavator_model
+  loco_m545
 )
 
 ###################################
