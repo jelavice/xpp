@@ -30,16 +30,9 @@ int main(int argc, char *argv[])
   ::ros::init(argc, argv, "urdf_m545_visualizer");
 
 
-
-
-
-  //TODO write a class that has a callback to the RobotStateJoint type
-  //it should publish m545_sttate
-
-
-
-
-
+  std::string xpp_state_topic = xpp_msgs::joint_desired;
+  std::string m545_state_topic = "/m545_state";
+  M545StateConverter m545_state_converter(xpp_state_topic, m545_state_topic);
 
 
   ::ros::spin();

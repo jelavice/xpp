@@ -80,7 +80,7 @@ void M545StateConverter::StateCallback(const xpp_msgs::RobotStateJoint& msg)
 
 }
 
-void FillKindrVector(const xpp_msgs::RobotStateJoint& msg,
+void M545StateConverter::FillKindrVector(const xpp_msgs::RobotStateJoint& msg,
                      excavator_model::JointPositions &kindrVec, int starting_index_kindr,
                      int starting_index_xpp, int numJoints)
 {

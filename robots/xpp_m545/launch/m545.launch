@@ -28,7 +28,6 @@
 
 
 	<!-- Converts towr trajecotry to excavator state -->
-	<!-- todo implement -->
 	<node name="urdf_visualizer_m545" pkg="xpp_m545"
 		type="urdf_visualizer_m545" output="screen" />
 
