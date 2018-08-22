@@ -13,7 +13,7 @@
 #include <ros/publisher.h>
 #include <ros/subscriber.h>
 
-#include <xpp_msgs/RobotStateJoint.h>
+#include <xpp_msgs/RobotStateCartesianPlusJoints.h>
 
 #include "excavator_model/ExcavatorModel.hpp"
 
@@ -29,13 +29,11 @@ class M545StateConverter
 
  private:
 
-  void StateCallback(const xpp_msgs::RobotStateJoint& msg);
+  void StateCallback(const xpp_msgs::RobotStateCartesianPlusJoints& msg);
 
-  void FillKindrVector(const xpp_msgs::RobotStateJoint& msg,
-                       excavator_model::JointPositions &kindrVec,
-                       int starting_index_kindr,
-                       int starting_index_xpp,
-                       int numJoints);
+  void FillKindrVector(const xpp_msgs::RobotStateCartesianPlusJoints& msg,
+                       excavator_model::JointPositions &kindrVec, int starting_index_kindr,
+                       int ee_id);
 
   ros::Subscriber xpp_state_sub_;
   ros::Publisher m545_state_pub_;

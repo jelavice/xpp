@@ -35,10 +35,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <xpp_msgs/StateLin3d.h>
 #include <xpp_msgs/State6d.h>
 #include <xpp_msgs/RobotStateCartesian.h>
+#include <xpp_msgs/RobotStateCartesianPlusJoints.h>
 #include <xpp_msgs/RobotStateCartesianTrajectory.h>
 
 #include <xpp_states/state.h>
 #include <xpp_states/robot_state_cartesian.h>
+#include <xpp_states/robot_state_cartesian_plus_joints.h>
 
 namespace xpp {
 
@@ -193,6 +195,45 @@ ToRos(const RobotStateCartesian& xpp)
 
   return ros;
 }
+
+
+
+static xpp_msgs::RobotStateCartesianPlusJoints
+ToRos(const RobotStateCartesianPlusJoints& xpp)
+{
+  xpp_msgs::RobotStateCartesianPlusJoints ros;
+
+  ros.base            = ToRos(xpp.base_);
+  ros.time_from_start = ros::Duration(xpp.t_global_);
+
+  for (auto ee : xpp.ee_contact_.GetEEsOrdered()) {
+    ros.ee_motion. push_back(ToRos(xpp.ee_motion_.at(ee)));
+    ros.ee_contact.push_back(xpp.ee_contact_.at(ee));
+    ros.ee_forces. push_back(ToRos<geometry_msgs::Vector3>(xpp.ee_forces_.at(ee)));
+  }
+
+  //copy all the joints
+  int n_ee = xpp.joint_positions_.size();
+  for( int i = 0; i < n_ee; ++i){
+    int num_joints = xpp.joint_positions_.at(i).size();
+
+    sensor_msgs::JointState joint_state;
+
+    for (int j = 0; j < num_joints; ++j){
+      joint_state.name.push_back("");
+      joint_state.position.push_back(xpp.joint_positions_.at(i)(j));
+      joint_state.velocity.push_back(0.0);
+      joint_state.effort.push_back(0.0);
+    }
+
+    ros.limb_joints.push_back(joint_state);
+
+  }
+
+  return ros;
+}
+
+
 
 static RobotStateCartesian
 ToXpp(const xpp_msgs::RobotStateCartesian& ros)

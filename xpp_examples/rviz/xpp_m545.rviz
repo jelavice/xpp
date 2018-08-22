@@ -6,9 +6,10 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /Grid1
+        - /Grid1/Offset1
         - /CartesianVisualization1
         - /CartesianVisualization1/Namespaces1
-        - /m5451/Status1
       Splitter Ratio: 0.442423999
     Tree Height: 963
   - Class: rviz/Selection
@@ -47,11 +48,11 @@ Visualization Manager:
       Name: Grid
       Normal Cell Count: 0
       Offset:
-        X: 4
+        X: 0
         Y: 0
         Z: 0
       Plane: XY
-      Plane Cell Count: 100
+      Plane Cell Count: 1000
       Reference Frame: <Fixed Frame>
       Value: true
     - Class: rviz/MarkerArray
@@ -348,10 +349,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.349797726
+      Pitch: 0.51979661
       Target Frame: <Fixed Frame>
       Value: ThirdPersonFollower (rviz)
-      Yaw: 1.18898308
+      Yaw: 1.69897211
     Saved:
       - Angle: 3.1400001
         Class: rviz/TopDownOrtho

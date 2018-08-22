@@ -18,6 +18,8 @@ add_message_files(
   RobotStateJoint.msg
   RobotParameters.msg
   TerrainInfo.msg
+  RobotStateCartesianPlusJoints.msg
+  
 )
 
 ## Generate added messages and services with any dependencies listed here

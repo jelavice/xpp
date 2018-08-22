@@ -6,7 +6,7 @@
 
   <!-- Launch rviz with specific configuration -->
   <!-- todo save this rviz file for the excavator -->
-  <node name="rviz_xpp" pkg="rviz" type="rviz"  args="-d $(find xpp_examples)/rviz/xpp_hyq.rviz">
+  <node name="rviz_xpp" pkg="rviz" type="rviz"  args="-d $(find xpp_examples)/rviz/xpp_m545.rviz">
   </node>
   
   <!-- Launch hyq visualizer -->
