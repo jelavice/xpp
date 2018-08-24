@@ -29,7 +29,14 @@ void M545StateConverter::StateCallback(const xpp_msgs::RobotStateCartesianPlusJo
 
   excavator_model::ExcavatorState robotState;
 
-  robotState.setTime(any_measurements::Time(0, msg.time_from_start.toNSec()).toChrono());
+  const int64_t nanoSecinSec = 1000000000;
+  int64_t sec = msg.time_from_start.toNSec() / nanoSecinSec;
+  int64_t nanoSec = msg.time_from_start.toNSec() % nanoSecinSec;
+
+
+  std::chrono::steady_clock::time_point time = std::chrono::steady_clock::now();
+  robotState.setTime(time);
+  //robotState.setTime(any_measurements::Time(sec, nanoSec).toChrono());
   robotState.setStatus(excavator_model::ExcavatorState::Status::STATUS_OK);
 
   robotState.setPositionWorldToBaseInWorldFrame(
