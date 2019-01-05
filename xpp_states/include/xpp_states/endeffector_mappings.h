@@ -62,14 +62,14 @@ static std::map<FootIDs, std::string> foot_to_name =
 }
 
 namespace excavator {
-enum FootIDs { LF=0, RF, LH, RH, EE };
+enum FootIDs { LF=0, RF, LH, RH, BOOM };
 static std::map<FootIDs, std::string> foot_to_name =
 {
   {LF, "Left-Front" },
   {RF, "Right-Front"},
   {LH, "Left-Hind"  },
   {RH, "Right-Hind" },
-  {EE, "End-effector" }
+  {BOOM, "Boom" }
 };
 }
 
