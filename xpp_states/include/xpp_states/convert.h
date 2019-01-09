@@ -205,6 +205,8 @@ ToRos(const RobotStateCartesianPlusJoints& xpp)
 
   ros.base            = ToRos(xpp.base_);
   ros.time_from_start = ros::Duration(xpp.t_global_);
+  ros.com = ToRos<geometry_msgs::Vector3>(xpp.com_position_);
+
 
   for (auto ee : xpp.ee_contact_.GetEEsOrdered()) {
     ros.ee_motion. push_back(ToRos(xpp.ee_motion_.at(ee)));

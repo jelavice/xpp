@@ -11,4 +11,4 @@ geometry_msgs/Vector3[] ee_forces         # endeffector forces expressed in worl
 bool[]                  ee_contact        # True if the foot is touching the environment
 float64[]               wheel_angles
 sensor_msgs/JointState[] limb_joints
-
+geometry_msgs/Vector3 		com

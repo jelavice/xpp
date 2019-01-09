@@ -26,6 +26,7 @@ class RobotStateCartesianPlusJoints : public RobotStateCartesian
 
 
   std::vector<Eigen::VectorXd> joint_positions_;
+  Eigen::Vector3d com_position_;
 
 };
 

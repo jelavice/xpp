@@ -31,7 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <xpp_states/convert.h>
 #include <xpp_vis/rviz_colors.h>
-
+#include <xpp_msgs/Helpers.h>
 #include <cmath>
 
 namespace xpp {
@@ -60,6 +60,21 @@ RvizRobotBuilder::FillWithInvisible(int max_size, MarkerVec& vec) const
   invisible.color.a = 0.0;
   vec.resize(max_size, invisible);
 }
+
+RvizRobotBuilder::MarkerArray
+RvizRobotBuilder::BuildRobotState (const xpp_msgs::RobotStateCartesianPlusJoints& state_and_joints_msg) const{
+  MarkerArray msg = BuildRobotState(xpp_msgs::ExtractCartesianState(state_and_joints_msg));
+  Eigen::Vector3d comPos = Convert::ToXpp(state_and_joints_msg.com);
+  comPos.z() = 0;
+  Marker com = CreateComPos(comPos);
+  com.header.frame_id = frame_id_;
+  com.id = ++msg.markers.back().id;
+  msg.markers.push_back(com);
+
+  return msg;
+
+}
+
 
 RvizRobotBuilder::MarkerArray
 RvizRobotBuilder::BuildRobotState (const xpp_msgs::RobotStateCartesian& state_msg) const
@@ -260,6 +275,19 @@ RvizRobotBuilder::CreateCopPos (const EEForces& ee_forces,
   return m;
 }
 
+RvizRobotBuilder::Marker RvizRobotBuilder::CreateComPos(const Vector3d &com) const
+{
+  Marker m;
+  m = CreateSphere(Eigen::Vector3d(com.x(), com.y(), 0.0));
+
+  m.color = color.red;
+  m.ns = "com";
+
+  return m;
+
+}
+
+
 RvizRobotBuilder::Marker
 RvizRobotBuilder::CreatePendulum (const Vector3d& pos,
                                   const EEForces& ee_forces,
@@ -387,7 +415,34 @@ RvizRobotBuilder::CreateSupportArea (const ContactState& contact_state,
     }
   }
 
+
+
   switch (m.points.size()) {
+    case 5: {
+      m.type = Marker::TRIANGLE_LIST;
+      auto temp = m.points;
+
+      //break the pentagram into 3 triangles
+      {
+        auto triplet = { m.points.at(0), m.points.at(1), m.points.at(4) };
+        m.points = triplet;
+        vec.push_back(m);
+      }
+
+      {
+        auto triplet = { m.points.at(1), m.points.at(2), m.points.at(3) };
+        m.points = triplet;
+        vec.push_back(m);
+      }
+
+      {
+        auto triplet = { m.points.at(1), m.points.at(3), m.points.at(4) };
+        m.points = triplet;
+        vec.push_back(m);
+      }
+
+      break;
+    }
     case 4: {
       m.type = Marker::TRIANGLE_LIST;
       auto temp = m.points;

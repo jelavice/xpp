@@ -1,6 +1,6 @@
 <launch>
   
-  <arg name="play_rate" default="0.5" />
+  <arg name="play_rate" default="1.0" />
   
   <!-- visualizes goal, opt. parameters and cartesian base state, endeffector positions and forces -->
   <node name="rviz_marker_node" pkg="xpp_vis" type="rviz_marker_node" output="screen">
@@ -15,6 +15,10 @@
   <include file="$(find xpp_m545)/launch/m545.launch"></include>
   
   <!-- Publish robot states from rosbag  -->
-  <node pkg="rosbag" type="play" name="rosbag" args="'$(find xpp_examples)/bags/m545.bag' --rate '$(arg play_rate)' --loop"/>
+  <node pkg="rosbag" type="play" name="rosbag" args="'$(find xpp_examples)/bags/m545.bag' --rate '$(arg play_rate)'"/>
+  <!--  append - -loop for looping -->
+  
+  <!-- some static transform between world and odom -->
+  <node pkg="tf" type="static_transform_publisher" name="world_broadcaster" args="1 0 0 0 0 0 1 /odom /world 100" />
   
 </launch>

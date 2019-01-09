@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <xpp_states/convert.h>
 #include <xpp_vis/rviz_robot_builder.h>
+#include <xpp_msgs/Helpers.h>
 
 
 static ros::Publisher rviz_marker_pub;
@@ -42,6 +43,12 @@ static xpp::RvizRobotBuilder robot_builder;
 static void StateCallback (const xpp_msgs::RobotStateCartesian& state_msg)
 {
   auto rviz_marker_msg = robot_builder.BuildRobotState(state_msg);
+  rviz_marker_pub.publish(rviz_marker_msg);
+}
+
+static void StateCallbackJoints (const xpp_msgs::RobotStateCartesianPlusJoints& state_and_joints_msg)
+{
+  auto rviz_marker_msg = robot_builder.BuildRobotState(state_and_joints_msg);
   rviz_marker_pub.publish(rviz_marker_msg);
 }
 
@@ -63,11 +70,14 @@ int main(int argc, char *argv[])
 
   NodeHandle n;
 
+  robot_builder.GetFrameId() = "odom";
+
   Subscriber parameters_sub;
   parameters_sub = n.subscribe(xpp_msgs::robot_parameters, 1, ParamsCallback);
 
   Subscriber state_sub_curr, state_sub_des, terrain_info_sub;
-  state_sub_des     = n.subscribe(xpp_msgs::robot_state_desired, 1, StateCallback);
+  //state_sub_des     = n.subscribe(xpp_msgs::robot_state_desired, 1, StateCallback);
+  state_sub_des     = n.subscribe(xpp_msgs::joint_desired, 1, StateCallbackJoints);
   terrain_info_sub  = n.subscribe(xpp_msgs::terrain_info, 1,  TerrainInfoCallback);
 
   rviz_marker_pub = n.advertise<visualization_msgs::MarkerArray>("xpp/rviz_markers", 1);
